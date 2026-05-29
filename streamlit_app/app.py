@@ -66,23 +66,69 @@ df = df.rename(columns={
 
 st.markdown("### Top pollutant levels by neighborhood")
 
+# Interactive controls
+pollutant_options = [
+    "Fine particles (PM 2.5)",
+    "Nitrogen dioxide (NO2)",
+    "Ozone (O3)"
+]
+
+selected_pollutant = st.selectbox(
+    "Select air quality indicator:",
+    pollutant_options
+)
+
+top_n = st.slider(
+    "Select number of neighborhoods to show:",
+    min_value=5,
+    max_value=20,
+    value=10
+)
+
+pipeline = [
+    {
+        "$match": {
+            "indicator.name": selected_pollutant,
+            "location.geo_type_name": "UHF42"
+        }
+    },
+    {
+        "$group": {
+            "_id": "$location.geo_place_name",
+            "average_pollution": {"$avg": "$data_value"},
+            "count": {"$sum": 1}
+        }
+    },
+    {"$sort": {"average_pollution": -1}},
+    {"$limit": top_n}
+]
+
+results = list(measurements.aggregate(pipeline))
+df = pd.DataFrame(results)
+
+df = df.rename(columns={
+    "_id": "Neighborhood",
+    "average_pollution": "Average Value"
+})
+
 fig = px.bar(
     df,
-    x="Average PM2.5",
+    x="Average Value",
     y="Neighborhood",
     orientation="h",
-    title="Highest Average PM2.5 Levels by UHF42 Neighborhood",
-    text="Average PM2.5"
+    title=f"Highest Average {selected_pollutant} Levels by UHF42 Neighborhood",
+    text="Average Value"
 )
 
 fig.update_layout(yaxis={"categoryorder": "total ascending"})
 
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("""
-**Interpretation:** This chart shows the UHF42 neighborhoods with the highest average PM2.5 values.
-It is based on a MongoDB aggregation query that filters PM2.5 records, groups by neighborhood,
-and calculates the average pollution value.
+st.markdown(f"""
+**Interpretation:** This chart shows the UHF42 neighborhoods with the highest average **{selected_pollutant}** values.
+The dropdown lets users choose the pollutant, and the slider controls how many neighborhoods are shown.
+This chart is based on a MongoDB aggregation query that filters by indicator, groups by neighborhood,
+and calculates the average value.
 """)
 
 st.markdown("---")
