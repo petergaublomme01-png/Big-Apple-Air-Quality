@@ -30,10 +30,6 @@ across New York City neighborhoods and boroughs, along with associated health im
 such as asthma hospitalizations and respiratory event rates.
 """)
 
-st.info(
-    "Charts and interactive visualizations will be added after database queries are finalized."
-)
-
 client = MongoClient("mongodb://localhost:27017/")
 db = client["big_apple_air_quality"]
 measurements = db["measurements"]
