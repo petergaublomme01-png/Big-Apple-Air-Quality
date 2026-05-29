@@ -1,0 +1,48 @@
+year,pollutant,measure,unit,record_count,avg_pollution_value
+2008,"Fine particles (PM 2.5)",Mean,mcg/m3,282,12.2675
+2009,"Fine particles (PM 2.5)",Mean,mcg/m3,423,10.5315
+2010,"Fine particles (PM 2.5)",Mean,mcg/m3,423,11.9876
+2011,"Fine particles (PM 2.5)",Mean,mcg/m3,423,10.3046
+2012,"Fine particles (PM 2.5)",Mean,mcg/m3,423,10.2409
+2013,"Fine particles (PM 2.5)",Mean,mcg/m3,423,10.7796
+2014,"Fine particles (PM 2.5)",Mean,mcg/m3,282,9.3108
+2015,"Fine particles (PM 2.5)",Mean,mcg/m3,564,8.7848
+2016,"Fine particles (PM 2.5)",Mean,mcg/m3,282,8.3278
+2017,"Fine particles (PM 2.5)",Mean,mcg/m3,423,8.5627
+2018,"Fine particles (PM 2.5)",Mean,mcg/m3,423,7.9301
+2019,"Fine particles (PM 2.5)",Mean,mcg/m3,423,7.7088
+2020,"Fine particles (PM 2.5)",Mean,mcg/m3,423,6.7980
+2021,"Fine particles (PM 2.5)",Mean,mcg/m3,423,7.4865
+2022,"Fine particles (PM 2.5)",Mean,mcg/m3,423,6.4211
+2023,"Fine particles (PM 2.5)",Mean,mcg/m3,282,7.9202
+2008,"Nitrogen dioxide (NO2)",Mean,ppb,282,28.2871
+2009,"Nitrogen dioxide (NO2)",Mean,ppb,423,24.2699
+2010,"Nitrogen dioxide (NO2)",Mean,ppb,423,24.9439
+2011,"Nitrogen dioxide (NO2)",Mean,ppb,423,22.2212
+2012,"Nitrogen dioxide (NO2)",Mean,ppb,423,21.8093
+2013,"Nitrogen dioxide (NO2)",Mean,ppb,423,22.2372
+2014,"Nitrogen dioxide (NO2)",Mean,ppb,282,20.7466
+2015,"Nitrogen dioxide (NO2)",Mean,ppb,564,19.8226
+2016,"Nitrogen dioxide (NO2)",Mean,ppb,282,20.5343
+2017,"Nitrogen dioxide (NO2)",Mean,ppb,423,19.9527
+2018,"Nitrogen dioxide (NO2)",Mean,ppb,423,18.4045
+2019,"Nitrogen dioxide (NO2)",Mean,ppb,423,19.0292
+2020,"Nitrogen dioxide (NO2)",Mean,ppb,423,16.9281
+2021,"Nitrogen dioxide (NO2)",Mean,ppb,423,16.9887
+2022,"Nitrogen dioxide (NO2)",Mean,ppb,423,16.3097
+2023,"Nitrogen dioxide (NO2)",Mean,ppb,282,14.9623
+2009,"Ozone (O3)",Mean,ppb,141,24.7630
+2010,"Ozone (O3)",Mean,ppb,141,32.4393
+2011,"Ozone (O3)",Mean,ppb,141,31.8188
+2012,"Ozone (O3)",Mean,ppb,141,32.9213
+2013,"Ozone (O3)",Mean,ppb,141,30.0372
+2014,"Ozone (O3)",Mean,ppb,141,30.4516
+2015,"Ozone (O3)",Mean,ppb,141,30.9109
+2016,"Ozone (O3)",Mean,ppb,141,32.9755
+2017,"Ozone (O3)",Mean,ppb,141,28.7913
+2018,"Ozone (O3)",Mean,ppb,141,29.9247
+2019,"Ozone (O3)",Mean,ppb,141,29.6463
+2020,"Ozone (O3)",Mean,ppb,141,29.7288
+2021,"Ozone (O3)",Mean,ppb,141,29.7352
+2022,"Ozone (O3)",Mean,ppb,141,33.1490
+2023,"Ozone (O3)",Mean,ppb,141,34.4410

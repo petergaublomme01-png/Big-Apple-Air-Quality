@@ -1,0 +1,31 @@
+pollutant,location,geography_type,unit,record_count,avg_pollution_value,pollution_rank
+"Fine particles (PM 2.5)","Midtown (CD5)",CD,mcg/m3,45,12.7879,1
+"Fine particles (PM 2.5)","Gramercy Park - Murray Hill",UHF42,mcg/m3,45,11.8553,2
+"Fine particles (PM 2.5)","Chelsea - Clinton",UHF42,mcg/m3,45,11.5652,3
+"Fine particles (PM 2.5)",Chelsea-Village,UHF34,mcg/m3,45,11.2626,4
+"Fine particles (PM 2.5)","Stuyvesant Town and Turtle Bay (CD6)",CD,mcg/m3,45,11.1983,5
+"Fine particles (PM 2.5)","Upper East Side-Gramercy",UHF34,mcg/m3,45,10.9604,6
+"Fine particles (PM 2.5)","Clinton and Chelsea (CD4)",CD,mcg/m3,45,10.8504,7
+"Fine particles (PM 2.5)","Greenwich Village and Soho (CD2)",CD,mcg/m3,45,10.7884,8
+"Fine particles (PM 2.5)","Greenwich Village - SoHo",UHF42,mcg/m3,45,10.6628,9
+"Fine particles (PM 2.5)","Financial District (CD1)",CD,mcg/m3,45,10.5324,10
+"Nitrogen dioxide (NO2)","Midtown (CD5)",CD,ppb,45,33.9541,1
+"Nitrogen dioxide (NO2)","Gramercy Park - Murray Hill",UHF42,ppb,45,31.6581,2
+"Nitrogen dioxide (NO2)","Chelsea - Clinton",UHF42,ppb,45,29.9782,3
+"Nitrogen dioxide (NO2)","Stuyvesant Town and Turtle Bay (CD6)",CD,ppb,45,29.4795,4
+"Nitrogen dioxide (NO2)",Chelsea-Village,UHF34,ppb,45,28.9286,5
+"Nitrogen dioxide (NO2)","Upper East Side-Gramercy",UHF34,ppb,45,28.5370,6
+"Nitrogen dioxide (NO2)","Clinton and Chelsea (CD4)",CD,ppb,45,27.8744,7
+"Nitrogen dioxide (NO2)","Financial District (CD1)",CD,ppb,45,27.6154,8
+"Nitrogen dioxide (NO2)","Lower Manhattan",UHF42,ppb,45,27.5287,9
+"Nitrogen dioxide (NO2)","Greenwich Village - SoHo",UHF42,ppb,45,26.8434,10
+"Ozone (O3)","Rockaway and Broad Channel (CD14)",CD,ppb,15,37.1284,1
+"Ozone (O3)",Rockaways,UHF34,ppb,15,37.0370,2
+"Ozone (O3)",Rockaways,UHF42,ppb,15,37.0370,3
+"Ozone (O3)","Coney Island (CD13)",CD,ppb,15,35.0184,4
+"Ozone (O3)","Coney Island - Sheepshead Bay",UHF34,ppb,15,34.3313,5
+"Ozone (O3)","Coney Island - Sheepshead Bay",UHF42,ppb,15,34.3313,6
+"Ozone (O3)","Canarsie - Flatlands",UHF34,ppb,15,34.1017,7
+"Ozone (O3)","Canarsie - Flatlands",UHF42,ppb,15,34.1017,8
+"Ozone (O3)","Sheepshead Bay (CD15)",CD,ppb,15,34.0827,9
+"Ozone (O3)","Flatlands and Canarsie (CD18)",CD,ppb,15,34.0716,10

@@ -1,0 +1,26 @@
+location,geography_type,avg_pm25_value,pm25_record_count,avg_pm25_asthma_impact,health_record_count
+"Gramercy Park - Murray Hill",UHF42,11.8553,45,36.9093,10
+"Chelsea - Clinton",UHF42,11.5652,45,53.8175,10
+"Greenwich Village - SoHo",UHF42,10.6628,45,13.6935,10
+"Lower Manhattan",UHF42,10.4917,45,37.1489,10
+Manhattan,Borough,10.2017,45,81.4083,10
+"Upper East Side",UHF42,10.1684,45,17.5020,10
+"Union Square - Lower East Side",UHF42,10.0797,45,77.2387,10
+Greenpoint,UHF42,10.0392,45,33.7926,10
+"Williamsburg - Bushwick",UHF42,9.7978,45,117.2111,10
+"Upper West Side",UHF42,9.6687,45,46.5719,10
+"Long Island City - Astoria",UHF42,9.5752,45,39.6716,10
+"Downtown - Heights - Slope",UHF42,9.5545,45,53.9212,10
+"Crotona -Tremont",UHF42,9.5187,45,155.3818,10
+"High Bridge - Morrisania",UHF42,9.4912,45,173.3726,10
+"Central Harlem - Morningside Heights",UHF42,9.3545,45,193.3459,10
+"Sunset Park",UHF42,9.2950,45,35.8025,10
+"Washington Heights",UHF42,9.2801,45,77.6818,10
+"East Harlem",UHF42,9.2440,45,195.1464,10
+"West Queens",UHF42,9.1786,45,40.2579,10
+Bronx,Borough,9.0678,45,117.1237,10
+"Hunts Point - Mott Haven",UHF42,9.0267,45,175.0181,10
+"Fordham - Bronx Pk",UHF42,9.0047,45,111.4592,10
+"Kingsbridge - Riverdale",UHF42,8.9286,45,47.6129,10
+"Bedford Stuyvesant - Crown Heights",UHF42,8.8521,45,119.4274,10
+"Pelham - Throgs Neck",UHF42,8.8207,45,87.8116,10
