@@ -1,4 +1,19 @@
+'''
+
+# planned
+st.markdown("---")
+st.markdown("**Planned sections:**")
+st.markdown("- Top pollutant levels by neighborhood")
+st.markdown("- Year-over-year PM2.5 trend")
+st.markdown("- Health impact comparison across boroughs")
+st.markdown("- MySQL vs. MongoDB performance comparison")
+st.markdown("- Custom query explorer")
+'''
+
 import streamlit as st
+import pandas as pd
+import plotly.express as px
+from pymongo import MongoClient
 
 st.set_page_config(page_title="Big Apple Air Quality", layout="wide")
 
@@ -19,10 +34,166 @@ st.info(
     "Charts and interactive visualizations will be added after database queries are finalized."
 )
 
+client = MongoClient("mongodb://localhost:27017/")
+db = client["big_apple_air_quality"]
+measurements = db["measurements"]
+
+pipeline = [
+    {
+        "$match": {
+            "indicator.name": "Fine particles (PM 2.5)",
+            "location.geo_type_name": "UHF42"
+        }
+    },
+    {
+        "$group": {
+            "_id": "$location.geo_place_name",
+            "average_pollution": {"$avg": "$data_value"},
+            "count": {"$sum": 1}
+        }
+    },
+    {"$sort": {"average_pollution": -1}},
+    {"$limit": 10}
+]
+
+results = list(measurements.aggregate(pipeline))
+df = pd.DataFrame(results)
+
+df = df.rename(columns={
+    "_id": "Neighborhood",
+    "average_pollution": "Average PM2.5"
+})
+
+st.markdown("### Top pollutant levels by neighborhood")
+
+fig = px.bar(
+    df,
+    x="Average PM2.5",
+    y="Neighborhood",
+    orientation="h",
+    title="Highest Average PM2.5 Levels by UHF42 Neighborhood",
+    text="Average PM2.5"
+)
+
+fig.update_layout(yaxis={"categoryorder": "total ascending"})
+
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("""
+**Interpretation:** This chart shows the UHF42 neighborhoods with the highest average PM2.5 values.
+It is based on a MongoDB aggregation query that filters PM2.5 records, groups by neighborhood,
+and calculates the average pollution value.
+""")
+
 st.markdown("---")
-st.markdown("**Planned sections:**")
-st.markdown("- Top pollutant levels by neighborhood")
-st.markdown("- Year-over-year PM2.5 trend")
-st.markdown("- Health impact comparison across boroughs")
-st.markdown("- MySQL vs. MongoDB performance comparison")
-st.markdown("- Custom query explorer")
+
+st.markdown("### Year-over-year PM2.5 trend")
+
+pipeline2 = [
+    {
+        "$match": {
+            "indicator.name": {
+                "$regex": "PM 2.5|Ozone|NO2",
+                "$options": "i"
+            }
+        }
+    },
+
+    {
+        "$group": {
+            "_id": {
+                "indicator": "$indicator.name",
+                "time_period": "$time.time_period"
+            },
+
+            "average_value": {
+                "$avg": "$data_value"
+            }
+        }
+    },
+
+    {
+        "$project": {
+            "_id": 0,
+            "indicator": "$_id.indicator",
+            "time_period": "$_id.time_period",
+            "average_value": 1
+        }
+    }
+]
+
+results2 = list(measurements.aggregate(pipeline2))
+
+trend_df = pd.DataFrame(results2)
+
+trend_df = trend_df.sort_values("time_period")
+
+fig2 = px.line(
+    trend_df,
+    x="time_period",
+    y="average_value",
+    color="indicator",
+    markers=True,
+    title="Average Air Quality Indicators Over Time"
+)
+
+st.plotly_chart(fig2, use_container_width=True)
+
+st.markdown("""
+**Interpretation:** This chart compares average PM2.5, Ozone, and NO2 levels across different NYC time periods.
+The visualization is generated directly from a MongoDB aggregation query using grouping and averaging operations.
+""")
+
+st.markdown("---")
+
+st.markdown(" ### Health impact comparison across boroughs")
+
+pipeline3 = [
+    {
+        "$match": {
+            "indicator.name": {
+                "$regex": "asthma|hospitalization|death",
+                "$options": "i"
+            },
+            "location.geo_type_name": "UHF42"
+        }
+    },
+    {
+        "$group": {
+            "_id": "$location.geo_place_name",
+            "average_health_impact": {"$avg": "$data_value"},
+            "count": {"$sum": 1}
+        }
+    },
+    {
+        "$sort": {"average_health_impact": -1}
+    },
+    {
+        "$limit": 10
+    }
+]
+
+results3 = list(measurements.aggregate(pipeline3))
+health_df = pd.DataFrame(results3)
+
+health_df = health_df.rename(columns={
+    "_id": "Neighborhood",
+    "average_health_impact": "Average Health Impact"
+})
+
+fig3 = px.bar(
+    health_df,
+    x="Average Health Impact",
+    y="Neighborhood",
+    orientation="h",
+    title="Top 10 Neighborhoods by Pollution-Related Health Impacts",
+    text="Average Health Impact"
+)
+
+fig3.update_layout(yaxis={"categoryorder": "total ascending"})
+
+st.plotly_chart(fig3, use_container_width=True)
+
+st.markdown("""
+**Interpretation:** This chart shows the UHF42 neighborhoods with the highest average pollution-related health impact values, based on indicators such as asthma, hospitalization, and death-related measures. It uses a MongoDB aggregation query to filter health-related indicators, group by neighborhood, and calculate the average value.
+""")
