@@ -9,6 +9,119 @@ measurements = db["measurements"]
 print("Connected to MongoDB")
 print("Measurement documents:", measurements.count_documents({}))
 
+
+# Before index: 
+
+# QUESTION 1: Which NYC locations have the highest average air pollution values?
+# Aggregation: Group by UHF area (United Hospital Fund) and calculate average PM 2.5
+pipeline1 = [
+    {
+        "$match": {
+            "indicator.name": "Fine particles (PM 2.5)",
+            "location.geo_type_name": "UHF42"
+        }
+    },
+    {
+        "$group": {
+            "_id": "$location.geo_place_name",
+            "average_pollution": {"$avg": "$data_value"},
+            "count": {"$sum": 1}
+        }
+    },
+    {
+        "$sort": {"average_pollution": -1}
+    },
+    {
+        "$limit": 10
+    }
+]
+
+start = time.time()
+result1 = list(measurements.aggregate(pipeline1))
+end = time.time()
+
+print("Query 1 runtime:", end - start)
+pd.DataFrame(result1)
+
+# How have major air quality indicators changed over time
+pipeline2 = [
+    {
+        "$match": {
+            "indicator.name": {
+                "$regex": "PM 2.5|Ozone|NO2",
+                "$options": "i"
+            }
+        }
+    },
+    {
+        "$group": {
+            "_id": {
+                "indicator": "$indicator.name",
+                "time_period": "$time.time_period"
+            },
+            "average_value": {"$avg": "$data_value"}
+        }
+    },
+    {
+        "$sort": {
+            "_id.time_period": 1,
+            "_id.indicator": 1
+        }
+    },
+    {
+        "$project": {
+            "_id": 0,
+            "indicator": "$_id.indicator",
+            "time_period": "$_id.time_period",
+            "average_value": 1
+        }
+    }
+]
+
+start = time.time()
+result2 = list(measurements.aggregate(pipeline2))
+end = time.time()
+
+print("Query 2 runtime:", end - start)
+pd.DataFrame(result2)
+
+# Whcih neighbourhoods have the highest pollution related health impacts?
+pipeline3 = [
+    {
+        "$match": {
+            "indicator.name": {
+                "$regex": "asthma|hospitalization|death",
+                "$options": "i"
+            },
+            "location.geo_type_name": "UHF42"
+        }
+    },
+    {
+        "$group": {
+            "_id": "$location.geo_place_name",
+            "average_health_impact": {"$avg": "$data_value"},
+            "count": {"$sum": 1}
+        }
+    },
+    {
+        "$sort": {"average_health_impact": -1}
+    },
+    {
+        "$limit": 10
+    }
+]
+
+start = time.time()
+result3 = list(measurements.aggregate(pipeline3))
+end = time.time()
+
+print("Query 3 runtime:", end - start)
+pd.DataFrame(result3)
+
+
+
+
+
 # ============================================================
 # SECTION 1: Create indexes
 # ============================================================
