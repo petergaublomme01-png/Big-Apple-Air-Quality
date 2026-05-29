@@ -1,0 +1,336 @@
+{
+    "explainVersion": "2",
+    "stages": [
+        {
+            "$cursor": {
+                "queryPlanner": {
+                    "namespace": "big_apple_air_quality.measurements",
+                    "parsedQuery": {
+                        "$and": [
+                            {
+                                "indicator.name": {
+                                    "$eq": "Fine particles (PM 2.5)"
+                                }
+                            },
+                            {
+                                "location.geo_type_name": {
+                                    "$eq": "UHF42"
+                                }
+                            }
+                        ]
+                    },
+                    "indexFilterSet": false,
+                    "queryHash": "53A4C843",
+                    "planCacheShapeHash": "53A4C843",
+                    "planCacheKey": "06317361",
+                    "optimizationTimeMillis": 1,
+                    "maxIndexedOrSolutionsReached": false,
+                    "maxIndexedAndSolutionsReached": false,
+                    "maxScansToExplodeReached": false,
+                    "prunedSimilarIndexes": false,
+                    "winningPlan": {
+                        "isCached": false,
+                        "queryPlan": {
+                            "stage": "GROUP",
+                            "planNodeId": 4,
+                            "inputStage": {
+                                "stage": "FETCH",
+                                "planNodeId": 2,
+                                "inputStage": {
+                                    "stage": "IXSCAN",
+                                    "planNodeId": 1,
+                                    "keyPattern": {
+                                        "indicator.name": 1,
+                                        "location.geo_type_name": 1
+                                    },
+                                    "indexName": "indicator.name_1_location.geo_type_name_1",
+                                    "isMultiKey": false,
+                                    "multiKeyPaths": {
+                                        "indicator.name": [],
+                                        "location.geo_type_name": []
+                                    },
+                                    "isUnique": false,
+                                    "isSparse": false,
+                                    "isPartial": false,
+                                    "indexVersion": 2,
+                                    "direction": "forward",
+                                    "indexBounds": {
+                                        "indicator.name": [
+                                            "[\"Fine particles (PM 2.5)\", \"Fine particles (PM 2.5)\"]"
+                                        ],
+                                        "location.geo_type_name": [
+                                            "[\"UHF42\", \"UHF42\"]"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "slotBasedPlan": {
+                            "slots": "$$RESULT=s20 env: { s5 = {\"indicator.name\" : 1, \"location.geo_type_name\" : 1} }",
+                            "stages": "[4] project [s20 = newObj(\"_id\", s14, \"average_pollution\", s18, \"count\", s19)] \n[4] project [s18 = \n    if (s16 == 0ll) \n    then null \n    else (doubleDoubleSumFinalize(s15) / s16) \n, s19 = (convert ( s17, int32) ?: s17)] \n[4] group [s14] [s15 = aggDoubleDoubleSum(s8), s16 = sum(\n    if ((typeMatch(s8, 1088) ?: true) || !(isNumber(s8))) \n    then 0ll \n    else 1ll \n), s17 = count()] spillSlots[s11, s12, s13] mergingExprs[aggMergeDoubleDoubleSums(s11), sum(s12), sum(s13)] \n[4] project [s14 = (s10 ?: null)] \n[4] project [s10 = traverseP(s9, lambda(l2.0) { getField(move(l2.0), \"geo_place_name\") }, 1)] \n[2] nlj inner [] [s1, s4, s2, s3, s5] \n    left \n        [1] ixseek KS(3C46696E65207061727469636C65732028504D20322E3529003C55484634320001) KS(3C46696E65207061727469636C65732028504D20322E3529003C554846343200FE) s3 s1 s4 s2 [] @\"16e53b7b-8512-4983-a1f7-56d314c3c588\" @\"indicator.name_1_location.geo_type_name_1\" true \n    right \n        [2] limit 1ll \n        [2] seek s1 s6 s7 s4 s2 s3 s5 none none [s8 = data_value, s9 = location] @\"16e53b7b-8512-4983-a1f7-56d314c3c588\" true false \n"
+                        }
+                    },
+                    "rejectedPlans": []
+                },
+                "executionStats": {
+                    "executionSuccess": true,
+                    "nReturned": 42,
+                    "executionTimeMillis": 30,
+                    "totalKeysExamined": 1890,
+                    "totalDocsExamined": 1890,
+                    "executionStages": {
+                        "stage": "project",
+                        "planNodeId": 4,
+                        "nReturned": 42,
+                        "executionTimeMillisEstimate": 5,
+                        "opens": 1,
+                        "closes": 1,
+                        "saveState": 3,
+                        "restoreState": 2,
+                        "isEOF": 1,
+                        "projections": {
+                            "20": "newObj(\"_id\", s14, \"average_pollution\", s18, \"count\", s19) "
+                        },
+                        "inputStage": {
+                            "stage": "project",
+                            "planNodeId": 4,
+                            "nReturned": 42,
+                            "executionTimeMillisEstimate": 5,
+                            "opens": 1,
+                            "closes": 1,
+                            "saveState": 3,
+                            "restoreState": 2,
+                            "isEOF": 1,
+                            "projections": {
+                                "18": "\n    if (s16 == 0ll) \n    then null \n    else (doubleDoubleSumFinalize(s15) / s16) \n",
+                                "19": "(convert ( s17, int32) ?: s17) "
+                            },
+                            "inputStage": {
+                                "stage": "group",
+                                "planNodeId": 4,
+                                "nReturned": 42,
+                                "executionTimeMillisEstimate": 5,
+                                "opens": 1,
+                                "closes": 1,
+                                "saveState": 3,
+                                "restoreState": 2,
+                                "isEOF": 1,
+                                "groupBySlots": [
+                                    14
+                                ],
+                                "expressions": {
+                                    "15": "aggDoubleDoubleSum(s8) ",
+                                    "16": "sum(\n    if ((typeMatch(s8, 1088) ?: true) || !(isNumber(s8))) \n    then 0ll \n    else 1ll \n) ",
+                                    "17": "count() ",
+                                    "initExprs": {
+                                        "15": null,
+                                        "16": null,
+                                        "17": null
+                                    }
+                                },
+                                "mergingExprs": {
+                                    "11": "aggMergeDoubleDoubleSums(s11) ",
+                                    "12": "sum(s12) ",
+                                    "13": "sum(s13) "
+                                },
+                                "usedDisk": false,
+                                "spills": 0,
+                                "spilledBytes": 0,
+                                "spilledRecords": 0,
+                                "spilledDataStorageSize": 0,
+                                "inputStage": {
+                                    "stage": "project",
+                                    "planNodeId": 4,
+                                    "nReturned": 1890,
+                                    "executionTimeMillisEstimate": 2,
+                                    "opens": 1,
+                                    "closes": 1,
+                                    "saveState": 3,
+                                    "restoreState": 2,
+                                    "isEOF": 1,
+                                    "projections": {
+                                        "14": "(s10 ?: null) "
+                                    },
+                                    "inputStage": {
+                                        "stage": "project",
+                                        "planNodeId": 4,
+                                        "nReturned": 1890,
+                                        "executionTimeMillisEstimate": 2,
+                                        "opens": 1,
+                                        "closes": 1,
+                                        "saveState": 3,
+                                        "restoreState": 2,
+                                        "isEOF": 1,
+                                        "projections": {
+                                            "10": "traverseP(s9, lambda(l2.0) { getField(move(l2.0), \"geo_place_name\") }, 1) "
+                                        },
+                                        "inputStage": {
+                                            "stage": "nlj",
+                                            "planNodeId": 2,
+                                            "nReturned": 1890,
+                                            "executionTimeMillisEstimate": 2,
+                                            "opens": 1,
+                                            "closes": 1,
+                                            "saveState": 3,
+                                            "restoreState": 2,
+                                            "isEOF": 1,
+                                            "totalDocsExamined": 1890,
+                                            "totalKeysExamined": 1890,
+                                            "collectionScans": 0,
+                                            "collectionSeeks": 1890,
+                                            "indexScans": 0,
+                                            "indexSeeks": 1,
+                                            "indexesUsed": [
+                                                "indicator.name_1_location.geo_type_name_1"
+                                            ],
+                                            "innerOpens": 1890,
+                                            "innerCloses": 1,
+                                            "outerProjects": [],
+                                            "outerCorrelated": [
+                                                1,
+                                                4,
+                                                2,
+                                                3,
+                                                5
+                                            ],
+                                            "outerStage": {
+                                                "stage": "ixseek",
+                                                "planNodeId": 1,
+                                                "nReturned": 1890,
+                                                "executionTimeMillisEstimate": 0,
+                                                "opens": 1,
+                                                "closes": 1,
+                                                "saveState": 3,
+                                                "restoreState": 2,
+                                                "isEOF": 1,
+                                                "indexName": "indicator.name_1_location.geo_type_name_1",
+                                                "keysExamined": 1890,
+                                                "seeks": 1,
+                                                "numReads": 1891,
+                                                "indexKeySlot": 3,
+                                                "recordIdSlot": 1,
+                                                "snapshotIdSlot": 4,
+                                                "indexIdentSlot": 2,
+                                                "outputSlots": [],
+                                                "indexKeysToInclude": "00000000000000000000000000000000",
+                                                "seekKeyLow": "KS(3C46696E65207061727469636C65732028504D20322E3529003C55484634320001) ",
+                                                "seekKeyHigh": "KS(3C46696E65207061727469636C65732028504D20322E3529003C554846343200FE) "
+                                            },
+                                            "innerStage": {
+                                                "stage": "limit",
+                                                "planNodeId": 2,
+                                                "nReturned": 1890,
+                                                "executionTimeMillisEstimate": 0,
+                                                "opens": 1890,
+                                                "closes": 1,
+                                                "saveState": 3,
+                                                "restoreState": 2,
+                                                "isEOF": 1,
+                                                "limit": 1,
+                                                "inputStage": {
+                                                    "stage": "seek",
+                                                    "planNodeId": 2,
+                                                    "nReturned": 1890,
+                                                    "executionTimeMillisEstimate": 0,
+                                                    "opens": 1890,
+                                                    "closes": 1,
+                                                    "saveState": 3,
+                                                    "restoreState": 2,
+                                                    "isEOF": 0,
+                                                    "numReads": 1890,
+                                                    "recordSlot": 6,
+                                                    "recordIdSlot": 7,
+                                                    "seekRecordIdSlot": 1,
+                                                    "snapshotIdSlot": 4,
+                                                    "indexIdentSlot": 2,
+                                                    "indexKeySlot": 3,
+                                                    "indexKeyPatternSlot": 5,
+                                                    "scanFieldNames": [
+                                                        "data_value",
+                                                        "location"
+                                                    ],
+                                                    "scanFieldSlots": [
+                                                        8,
+                                                        9
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "nReturned": 42,
+            "executionTimeMillisEstimate": 9
+        },
+        {
+            "$sort": {
+                "sortKey": {
+                    "average_pollution": -1
+                },
+                "limit": 10
+            },
+            "totalDataSizeSortedBytesEstimate": 4138,
+            "usedDisk": false,
+            "spills": 0,
+            "spilledDataStorageSize": 0,
+            "nReturned": 10,
+            "executionTimeMillisEstimate": 9
+        }
+    ],
+    "queryShapeHash": "FE592488711F19F579F3E0C595F4AAFD37AD86545E2BC381BC57A95AFC36FFE2",
+    "serverInfo": {
+        "host": "Nurs-MBP.lan",
+        "port": 27017,
+        "version": "8.2.9",
+        "gitVersion": "18cf44d54b9dcdc0df43a984da7c6b12006c4217"
+    },
+    "serverParameters": {
+        "internalQueryFacetBufferSizeBytes": 104857600,
+        "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+        "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+        "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+        "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+        "internalQueryProhibitBlockingMergeOnMongoS": 0,
+        "internalQueryMaxAddToSetBytes": 104857600,
+        "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+        "internalQueryFrameworkControl": "trySbeRestricted",
+        "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+    },
+    "command": {
+        "aggregate": "measurements",
+        "pipeline": [
+            {
+                "$match": {
+                    "indicator.name": "Fine particles (PM 2.5)",
+                    "location.geo_type_name": "UHF42"
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$location.geo_place_name",
+                    "average_pollution": {
+                        "$avg": "$data_value"
+                    },
+                    "count": {
+                        "$sum": 1
+                    }
+                }
+            },
+            {
+                "$sort": {
+                    "average_pollution": -1
+                }
+            },
+            {
+                "$limit": 10
+            }
+        ],
+        "cursor": {},
+        "$db": "big_apple_air_quality"
+    },
+    "ok": 1.0
+}
