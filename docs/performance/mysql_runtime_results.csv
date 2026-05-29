@@ -1,0 +1,5 @@
+query,question,mysql_runtime_seconds,notes
+Q1,Highest average air pollution values by location,,SQL aggregation grouped by pollutant and location
+Q2,Major air quality indicators over time,,SQL grouped trend query by year and pollutant
+Q3,Highest pollution-related health impacts,,SQL health-impact aggregation by location
+Q4,Areas with both high PM2.5 and high PM2.5-related asthma impact,,SQL query using two CTEs joined by location
