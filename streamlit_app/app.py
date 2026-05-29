@@ -1,14 +1,4 @@
-'''
 
-# planned
-st.markdown("---")
-st.markdown("**Planned sections:**")
-st.markdown("- Top pollutant levels by neighborhood")
-st.markdown("- Year-over-year PM2.5 trend")
-st.markdown("- Health impact comparison across boroughs")
-st.markdown("- MySQL vs. MongoDB performance comparison")
-st.markdown("- Custom query explorer")
-'''
 
 import streamlit as st
 import pandas as pd
@@ -129,31 +119,45 @@ and calculates the average value.
 
 st.markdown("---")
 
-st.markdown("### Year-over-year PM2.5 trend")
+st.markdown("### Year-over-year air quality trend")
+
+# Interactive controls for second visualization
+trend_indicator_options = [
+    "Fine particles (PM 2.5)",
+    "Nitrogen dioxide (NO2)",
+    "Ozone (O3)"
+]
+
+selected_trend_indicators = st.multiselect(
+    "Select indicators to show in trend chart:",
+    trend_indicator_options,
+    default=trend_indicator_options
+)
+
+show_markers = st.checkbox(
+    "Show markers on line chart",
+    value=True
+)
 
 pipeline2 = [
     {
         "$match": {
             "indicator.name": {
-                "$regex": "PM 2.5|Ozone|NO2",
-                "$options": "i"
+                "$in": selected_trend_indicators
             }
         }
     },
-
     {
         "$group": {
             "_id": {
                 "indicator": "$indicator.name",
                 "time_period": "$time.time_period"
             },
-
             "average_value": {
                 "$avg": "$data_value"
             }
         }
     },
-
     {
         "$project": {
             "_id": 0,
@@ -165,26 +169,29 @@ pipeline2 = [
 ]
 
 results2 = list(measurements.aggregate(pipeline2))
-
 trend_df = pd.DataFrame(results2)
 
-trend_df = trend_df.sort_values("time_period")
+if not trend_df.empty:
+    trend_df = trend_df.sort_values("time_period")
 
-fig2 = px.line(
-    trend_df,
-    x="time_period",
-    y="average_value",
-    color="indicator",
-    markers=True,
-    title="Average Air Quality Indicators Over Time"
-)
+    fig2 = px.line(
+        trend_df,
+        x="time_period",
+        y="average_value",
+        color="indicator",
+        markers=show_markers,
+        title="Average Air Quality Indicators Over Time"
+    )
 
-st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, use_container_width=True)
 
-st.markdown("""
-**Interpretation:** This chart compares average PM2.5, Ozone, and NO2 levels across different NYC time periods.
-The visualization is generated directly from a MongoDB aggregation query using grouping and averaging operations.
-""")
+    st.markdown("""
+    **Interpretation:** This chart compares selected air quality indicators across different NYC time periods.
+    Users can choose which pollutants to display and whether to show point markers on the line chart.
+    The visualization is generated directly from a MongoDB aggregation query using grouping and averaging operations.
+    """)
+else:
+    st.warning("Please select at least one indicator to display the trend chart.")
 
 st.markdown("---")
 
